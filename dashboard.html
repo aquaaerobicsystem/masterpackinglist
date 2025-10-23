@@ -1114,7 +1114,7 @@
             </div>
         </section>
         <p id="error" class="error"></p>
-        <footer><span>© Aqua-Aerobic Systems Inc | Protecting the World’s Water</span></footer>
+        <footer><span>© Aqua-Aerobic Systems Inc | Protecting the World’s Water (v10.23.25.9.19)</span></footer>
     </div>
 
     <script>
@@ -2760,6 +2760,7 @@
                                          renderMissingJobs([]);
                                          updateMissingJobsResultsCount([]);
                                          document.getElementById("missingCard").classList.remove("active");
+
                                      }
                                 }
 
@@ -2786,6 +2787,7 @@
                                          case "shipfuture": {
                                              if (jobClosed || !shipDateStr || shipDateStr === "ShipDate Not Set") return false; // Ensure not closed, has date
                                              const shipDate = parseLocalDate(shipDateStr);
+              
                                              const today = new Date(); today.setHours(0, 0, 0, 0);
                                              return shipDate && shipDate > today;
                                          }
@@ -3132,7 +3134,7 @@
 </body>
 <!--
 
-### Dashboard Summary (v10.23.25.9.19)
+### Dashboard Summary (v10.23.25.9.20)
 
 Developer: Chuck Konkol
 Last Update: 10/23/2025
@@ -3182,6 +3184,11 @@ This dashboard provides a comprehensive, real-time view of packing list statuses
 ---
 
 ### Feature Changelog
+
+**v10.23.25.9.20 (Maintenance Release)**
+* **Summary:** Minor internal update.
+* **Functionality:**
+    * Added version number to the page footer.
 
 **v10.23.25.9.19 (Stability & UX Release)**
 * **Summary:** Focused on quality-of-life, stability, and reducing visual noise.
