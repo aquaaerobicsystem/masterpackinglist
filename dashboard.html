@@ -259,101 +259,177 @@
             margin: 14px 0 20px;
         }
 
+        /* --- NEW LEGEND/CHIP STYLES --- */
         .chip {
             position: relative;
-            --bg: #fff;
-            --fg: #1e2a3d;
-            --ring: rgba(10, 91, 214, .28);
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            grid-template-rows: auto auto;
-            grid-template-areas: "icon label count" "icon pct count";
+            display: flex;
             align-items: center;
-            gap: 2px 8px;
-            padding: 10px 12px;
-            border-radius: 999px;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 12px; /* Softer corners */
             border: 1px solid rgba(16, 28, 61, .08);
-            background: var(--bg);
-            color: var(--fg);
-            box-shadow: 0 4px 12px rgba(16, 28, 61, .08);
+            background-color: #fff; /* Default inactive background */
+            color: var(--ink);
+            box-shadow: 0 4px 14px rgba(0, 30, 80, .07); /* Subtler shadow */
             cursor: pointer;
-            transition: transform .14s ease, box-shadow .14s ease, outline-color .14s ease, background .14s ease, filter .14s ease, opacity .14s ease;
-            outline: 2px solid transparent;
+            transition: transform .14s ease, box-shadow .14s ease, background .14s ease, color .14s ease, filter .14s ease, opacity .14s ease;
             user-select: none;
         }
 
         .chip:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 18px rgba(16, 28, 61, .14);
+            transform: scale(1.02); /* Gentle scale */
+            box-shadow: 0 6px 18px rgba(0, 30, 80, .1); /* Slightly stronger hover shadow */
         }
 
         .chip:active {
-            transform: translateY(0);
+            transform: scale(1.01); /* Active press */
         }
 
+        /* Active state is now the strong color */
         .chip.active {
-            outline-color: var(--ring);
+            color: #fff; /* White text for all active */
+            box-shadow: 0 7px 18px rgba(16, 28, 61, .14);
         }
+        .chip.active .label,
+        .chip.active .count,
+        .chip.active .pct,
+        .chip.active .icon {
+            color: #fff;
+            opacity: 1;
+        }
+        .chip.active .count {
+            background: rgba(255, 255, 255, .3); /* Light background for active count */
+            border-color: rgba(255, 255, 255, .4);
+        }
+
 
         .chip .icon {
-            grid-area: icon;
             font-size: 16px;
             filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .08));
+            transition: color .14s ease;
+        }
+
+        .chip .label-stack {
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* This pushes count to the right */
+            line-height: 1.3;
         }
 
         .chip .label {
-            grid-area: label;
             font-weight: 700;
             font-size: 13.5px;
             letter-spacing: .2px;
+            color: var(--ink);
+            transition: color .14s ease;
         }
 
         .chip .count {
-            grid-area: count;
             font-weight: 800;
             font-size: 13.5px;
             padding: 2px 8px;
-            background: rgba(255, 255, 255, .6);
+            background: rgba(0, 0, 0, .05); /* Default inactive count bg */
             border: 1px solid rgba(0, 0, 0, .06);
             border-radius: 999px;
+            color: var(--ink);
+            transition: color .14s ease, background .14s ease, border-color .14s ease;
         }
 
         .chip .pct {
-            grid-area: pct;
             font-weight: 600;
             font-size: 12px;
+            color: #50608a;
             opacity: .85;
+            transition: color .14s ease;
         }
 
-        .chip.closed {
-            --bg: linear-gradient(180deg, #5b50ff, #440ced);
-            --fg: #fff;
-        }
+        /* --- Inactive Colors --- */
+        .chip.closed:not(.active) { background-color: #f3f2ff; }
+        .chip.closed:not(.active) .icon,
+        .chip.closed:not(.active) .label,
+        .chip.closed:not(.active) .count { color: #440ced; }
 
-        .chip.nopackinglist {
-            --bg: #ffffff;
-        }
+        .chip.nopackinglist:not(.active) { background-color: #fff; } /* Stays white */
 
-        .chip.critical {
-            --bg: linear-gradient(180deg, #ff8f82, #f56565);
-            --fg: #fff;
-        }
+        .chip.critical:not(.active) { background-color: #ffebee; }
+        .chip.critical:not(.active) .icon,
+        .chip.critical:not(.active) .label,
+        .chip.critical:not(.active) .count { color: #f56565; }
 
-        .chip.setshipdate {
-            --bg: linear-gradient(180deg, #fff689, #ffe44d);
-        }
+        .chip.setshipdate:not(.active) { background-color: #fffde7; }
+        .chip.setshipdate:not(.active) .icon,
+        .chip.setshipdate:not(.active) .label,
+        .chip.setshipdate:not(.active) .count { color: #e6a700; }
 
-        .chip.shipdateset {
-            --bg: linear-gradient(180deg, #9bf3b1, #7be495);
-        }
+        .chip.shipdateset:not(.active) { background-color: #edfff2; }
+        .chip.shipdateset:not(.active) .icon,
+        .chip.shipdateset:not(.active) .label,
+        .chip.shipdateset:not(.active) .count { color: #38a169; }
 
-        .chip.shipfuture {
-            --bg: linear-gradient(180deg, #cfe8ff, #a8d1ff);
-        }
+        .chip.shipfuture:not(.active) { background-color: #eef8ff; }
+        .chip.shipfuture:not(.active) .icon,
+        .chip.shipfuture:not(.active) .label,
+        .chip.shipfuture:not(.active) .count { color: #0a5bd6; }
 
-        .chip.missing {
-            --bg: linear-gradient(180deg, #e3edf5, #cfd8dc);
+        .chip.missing:not(.active) { background-color: #f4f6f7; }
+        .chip.missing:not(.active) .icon,
+        .chip.missing:not(.active) .label,
+        .chip.missing:not(.active) .count { color: #546e7a; }
+
+        /* --- Active Colors (Original Gradients) --- */
+        .chip.closed.active {
+            background: linear-gradient(180deg, #5b50ff, #440ced);
         }
+        .chip.nopackinglist.active {
+            background: #6c757d; /* No gradient, needs an active state */
+        }
+        .chip.critical.active {
+            background: linear-gradient(180deg, #ff8f82, #f56565);
+        }
+        .chip.setshipdate.active {
+            background: linear-gradient(180deg, #fff689, #ffe44d);
+            color: #333; /* Darker text for yellow */
+        }
+        .chip.setshipdate.active .label,
+        .chip.setshipdate.active .count,
+        .chip.setshipdate.active .pct,
+        .chip.setshipdate.active .icon { color: #333; }
+        .chip.setshipdate.active .count { background: rgba(0,0,0,.1); border-color: rgba(0,0,0,.15); }
+
+
+        .chip.shipdateset.active {
+            background: linear-gradient(180deg, #9bf3b1, #7be495);
+             color: #003d1a; /* Darker text for green */
+        }
+         .chip.shipdateset.active .label,
+        .chip.shipdateset.active .count,
+        .chip.shipdateset.active .pct,
+        .chip.shipdateset.active .icon { color: #003d1a; }
+        .chip.shipdateset.active .count { background: rgba(0,61,26,.1); border-color: rgba(0,61,26,.15); }
+
+
+        .chip.shipfuture.active {
+            background: linear-gradient(180deg, #cfe8ff, #a8d1ff);
+            color: #0035a0; /* Darker text for blue */
+        }
+         .chip.shipfuture.active .label,
+        .chip.shipfuture.active .count,
+        .chip.shipfuture.active .pct,
+        .chip.shipfuture.active .icon { color: #0035a0; }
+        .chip.shipfuture.active .count { background: rgba(0,53,160,.1); border-color: rgba(0,53,160,.15); }
+
+
+        .chip.missing.active {
+            background: linear-gradient(180deg, #e3edf5, #cfd8dc);
+            color: #263238; /* Darker text for grey */
+        }
+        .chip.missing.active .label,
+        .chip.missing.active .count,
+        .chip.missing.active .pct,
+        .chip.missing.active .icon { color: #263238; }
+        .chip.missing.active .count { background: rgba(38,50,56,.1); border-color: rgba(38,50,56,.15); }
+        /* --- END NEW LEGEND/CHIP STYLES --- */
+
 
         .chip[disabled],
         .chip.is-disabled {
@@ -1047,7 +1123,64 @@
                     <option value="kiosk">Kiosk Mode</option>
                 </select></div>
         </div>
-        <div class="legend" id="legend"> <button class="chip closed pop" data-filter="closed" title="Closed/Shipped"><span class="icon">✅</span><span class="label">Closed</span><span class="count" id="countClosed">--</span><span class="pct" id="pctClosed">--%</span></button> <button class="chip nopackinglist pop" data-filter="nopackinglist" title="No Packing List"><span class="icon">📄</span><span class="label">No List</span><span class="count" id="countNoPackingList">--</span><span class="pct" id="pctNoPackingList">--%</span></button> <button class="chip critical pop" data-filter="critical" title="Jobs that are past ship date or missing required data"><span class="icon">🚨</span><span class="label">Critical</span><span class="count" id="countCritical">--</span><span class="pct" id="pctCritical">--%</span></button> <button class="chip setshipdate pop" data-filter="setshipdate" title="Set Ship Date"><span class="icon">⏱️</span><span class="label">Set Date</span><span class="count" id="countSetShipDate">--</span><span class="pct" id="pctSetShipDate">--%</span></button> <button class="chip shipdateset pop" data-filter="shipdateset" title="Ship Date Set (Today or Earlier)"><span class="icon">📦</span><span class="label">Date Set</span><span class="count" id="countShipDateSet">--</span><span class="pct"id="pctShipDateSet">--%</span></button> <button class="chip shipfuture pop" data-filter="shipfuture" title="Ship Date in Future"><span class="icon">📅</span><span class="label">Future</span><span class="count" id="countShipFuture">--</span><span class="pct" id="pctShipFuture">--%</span></button> <button class="chip missing pop" id="missingCard" title="Jobs Not In MasterList"><span class="icon">❔</span><span class="label">Not In MasterList</span><span class="count" id="countMissing">--</span></button> </div>
+        
+        <div class="legend" id="legend">
+            <button class="chip closed pop" data-filter="closed" title="Closed/Shipped">
+                <span class="icon">✅</span>
+                <span class="label-stack">
+                    <span class="label">Closed</span>
+                    <span class="pct" id="pctClosed">--%</span>
+                </span>
+                <span class="count" id="countClosed">--</span>
+            </button>
+            <button class="chip nopackinglist pop" data-filter="nopackinglist" title="No Packing List">
+                <span class="icon">📄</span>
+                <span class="label-stack">
+                    <span class="label">No List</span>
+                    <span class="pct" id="pctNoPackingList">--%</span>
+                </span>
+                <span class="count" id="countNoPackingList">--</span>
+            </button>
+            <button class="chip critical pop" data-filter="critical" title="Jobs that are past ship date or missing required data">
+                <span class="icon">🚨</span>
+                <span class="label-stack">
+                    <span class="label">Critical</span>
+                    <span class="pct" id="pctCritical">--%</span>
+                </span>
+                <span class="count" id="countCritical">--</span>
+            </button>
+            <button class="chip setshipdate pop" data-filter="setshipdate" title="Set Ship Date">
+                <span class="icon">⏱️</span>
+                <span class="label-stack">
+                    <span class="label">Set Date</span>
+                    <span class="pct" id="pctSetShipDate">--%</span>
+                </span>
+                <span class="count" id="countSetShipDate">--</span>
+            </button>
+            <button class="chip shipdateset pop" data-filter="shipdateset" title="Ship Date Set (Today or Earlier)">
+                <span class="icon">📦</span>
+                <span class="label-stack">
+                    <span class="label">Date Set</span>
+                    <span class="pct" id="pctShipDateSet">--%</span>
+                </span>
+                <span class="count" id="countShipDateSet">--</span>
+            </button>
+            <button class="chip shipfuture pop" data-filter="shipfuture" title="Ship Date in Future">
+                <span class="icon">📅</span>
+                <span class="label-stack">
+                    <span class="label">Future</span>
+                    <span class="pct" id="pctShipFuture">--%</span>
+                </span>
+                <span class="count" id="countShipFuture">--</span>
+            </button>
+            <button class="chip missing pop" id="missingCard" title="Jobs Not In MasterList">
+                <span class="icon">❔</span>
+                <span class="label-stack">
+                    <span class="label">Not In MasterList</span>
+                </span>
+                <span class="count" id="countMissing">--</span>
+            </button>
+        </div>
         <div id="kiosk-wrapper">
             <div class="chart-container fadeUp" style="background-color: #d3d3d37a;"><canvas id="statsChart"></canvas></div>
             <section id="kioskSection" class="fadeUp">
@@ -1114,7 +1247,7 @@
             </div>
         </section>
         <p id="error" class="error"></p>
-        <footer><span>© Aqua-Aerobic Systems Inc | Protecting the World’s Water (v10.23.25.9.19)</span></footer>
+        <footer><span>© Aqua-Aerobic Systems Inc | Protecting the World’s Water (v10.24.25)</span></footer>
     </div>
 
     <script>
@@ -2760,7 +2893,6 @@
                                          renderMissingJobs([]);
                                          updateMissingJobsResultsCount([]);
                                          document.getElementById("missingCard").classList.remove("active");
-
                                      }
                                 }
 
@@ -3131,112 +3263,31 @@
         setupViewMode();
         loadDashboard();
     </script>
-</body>
-<!--
 
-### Dashboard Summary (v10.23.25.9.20)
+    </body>
+	
+	<!--
 
-Developer: Chuck Konkol
-Last Update: 10/23/2025
+**Version:**
+`v10.24.25`
 
-This dashboard provides a comprehensive, real-time view of packing list statuses by fetching data from two main API endpoints: `/api/allmasters` and `/api/missingjobs`.
+**Changelog:**
 
-**Core Functionality:**
+* **Features**
+    * **Interactive Table Sorting:** Both the "Latest Jobs" and "Missing Jobs" tables now support interactive column sorting. Users can click on most column headers (e.g., Job, SO, ProjectID, PackingList, ReqShip, Urgency, ShipDate) to sort the data in ascending or descending order.
+    * **Reset Sort:** A "Reset Sort" link now appears next to the table title (e.g., "Latest Jobs") whenever a custom sort is applied, allowing users to return to the default sort order.
+    * **Sortable Urgency:** The "Urgency" column is now sortable by its logical priority (e.g., Overdue, Due Today, Future, TBD) rather than alphabetically.
 
-* **Data Fetching:**
-    * Fetches all master jobs and a separate list of "missing" jobs on load.
-    * Includes a manual **Refresh** button and a **Restart** button (for a full, clean reload).
-    * Automatically refreshes data every 5 minutes (`refreshIntervalMs`).
-    * Displays a "Next refresh in..." countdown timer.
-    * Uses data signatures (`computeMastersSignature`, `computeMissingSignature`) to check if data has *actually* changed, preventing unnecessary screen updates and showing a "No changes detected" toast.
-* **Main Display (Masters Table):**
-    * Displays all jobs from the master list in a detailed table.
-    * Generates dynamic links to SSRS reports for both the Master Packing List (on SO#) and individual Packing Slips (on PackingList name).
-    * Calculates and displays an **Urgency** column with color-coding (e.g., "Overdue", "Due in X days", "TBD") based on required ship dates and actual ship dates.
-    * Applies row-level background colors based on job status: `closed` (purple), `nopackinglist` (white), `critical` (red), `shipnotset` (yellow), `shiptoday` (green), and `shipfuture` (blue).
-* **Filtering (Legend Chips):**
-    * A primary legend of chips shows counts and percentages for all major categories: `Closed`, `No List`, `Critical`, `Set Date`, `Date Set`, and `Future`.
-    * These chips act as one-click filters. Clicking a chip filters the main table to show *only* jobs in that category. Clicking it again clears the filter.
-    * Applying a filter clears any active search query.
-* **Search:**
-    * A single search bar allows users to filter data across numerous fields (Job #, SO, ProjectID, etc.).
-    * The search filters *both* the main `mastersTable` and the `missingJobsTable` simultaneously.
-    * Initiating a search clears any active chip filter.
-* **Sorting:**
-    * All table headers in both tables are sortable (ascending/descending).
-    * The dashboard maintains separate sort states for the main table and the missing jobs table.
-    * The main table has a complex *default sort* that groups jobs by status (e.g., jobs with dates set first, then "Set Date", then "No List") before sorting by date.
-    * A **"Reset Sort"** link appears next to the table title if any non-default sort is applied.
-* **Missing Jobs Display:**
-    * A special chip, "Not In MasterList," shows the count of jobs found in production but not yet added to the master packing list.
-    * Clicking this chip "pins" the `missingJobsTable` open at the bottom of the page. Clicking it again hides it.
-    * This table is *also* shown any time a search is active.
-* **Kiosk Mode & Charting:**
-    * A "View Mode" dropdown allows switching to **Kiosk Mode**.
-    * Kiosk Mode hides the toolbar/search and displays a large-format pie chart (using Chart.js) that visualizes the legend counts.
-    * It also shows a simplified table (`kioskTable`) of all jobs, sorted by the currently active sort preference.
-    * Clicking a slice on the pie chart will apply that filter and automatically switch the user back to the "Default" view.
-* **UX & Feedback:**
-    * A full-screen loader appears on initial load.
-    * A small "Updating..." badge appears during background refreshes.
-    * Non-blocking "toast" notifications provide feedback for all actions (e.g., "Data updated," "Filter cleared," "Refresh failed").
-
----
-
-### Feature Changelog
-
-**v10.23.25.9.20 (Maintenance Release)**
-* **Summary:** Minor internal update.
-* **Functionality:**
-    * Added version number to the page footer.
-
-**v10.23.25.9.19 (Stability & UX Release)**
-* **Summary:** Focused on quality-of-life, stability, and reducing visual noise.
-* **Functionality:**
-    * Added auto-refresh timer to fetch new data every 5 minutes.
-    * Added "Next refresh in..." countdown timer.
-    * Implemented data-change detection (`computeMastersSignature`) to prevent screen re-renders if no data has changed.
-    * Added "Restart" button for a full, clean reload, separate from "Refresh."
-    * Added "Reset Sort" links that appear when a custom sort is active.
-    * Added `showToast` notification system for user feedback (e.g., "Data updated," "No changes detected").
-
-**v4.0.0 (Kiosk & Visualization Release)**
-* **Summary:** Introduced a high-level "Kiosk Mode" for dashboard displays.
-* **Functionality:**
-    * Added "View Mode" selector to switch between "Default" and "Kiosk."
-    * Implemented `body.view-kiosk` CSS to hide toolbars/search and show new widgets.
-    * Added Chart.js pie chart (`statsChart`) to visualize legend counts.
-    * Made chart slices clickable to apply filters.
-    * Added a simplified `kioskTable` for Kiosk Mode.
-    * Added `localStorage` support to remember the user's view mode.
-
-**v3.0.0 (Search & Sort Release)**
-* **Summary:** Implemented advanced data interaction features: universal search and column sorting.
-* **Functionality:**
-    * Added the search bar (`#searchBar`).
-    * Search now filters both the main `mastersTable` and the `missingJobsTable`.
-    * Made all table headers (`th.sortable`) clickable to sort columns (asc/desc).
-    * Created a persistent sort state (`mastersSortState`, `missingSortState`) to remember the user's sort preference.
-    * Implemented the complex *default* sort (`sortMastersDefault`) to group jobs by status.
-    * Search and Filters now correctly clear each other to prevent conflicts.
-
-**v2.0.0 (Filtering & Urgency Release)**
-* **Summary:** Added filtering capabilities and critical business logic.
-* **Functionality:**
-    * Made the legend chips (`#legend`) clickable to filter the main table.
-    * Added the `critical` status, which is fetched from `/api/critical` and applied as a row-level override.
-    * Added the "Urgency" column with logic (`getUrgency`) to calculate and display overdue/due statuses.
-    * Added the "Not In MasterList" chip and the associated `missingJobsTable` logic.
-
-**v1.0.0 (Initial Dashboard)**
-* **Summary:** First functional version. Fetched and displayed all master jobs with basic status colors.
-* **Functionality:**
-    * Fetches and renders `/api/allmasters` into `mastersTable`.
-    * Fetches `/api/missingjobs` data.
-    * Calculates and displays counts/percentages in the legend.
-    * Applies basic row coloring (`computeRowClass`) for `closed`, `nopackinglist`, `shipnotset`, etc.
-    * Generates SSRS links for SO and PackingList.
-    * Added initial "Refresh" button.
-
--->
+* **Improvements & Bug Fixes**
+    * **Legend UI Overhaul:** Reworked the legend filter buttons (chips) for better clarity and usability.
+        * Inactive buttons now use a light, tinted background with colored text for a softer look.
+        * Active (clicked) buttons now display a high-contrast gradient, making the active filter stand out clearly.
+        * Updated the hover effect with a smoother, more subtle scaling animation.
+    * **Urgency Performance:** Urgency status (e.g., "Overdue 3 days," "Due in 1 day") and its corresponding sort key are now pre-calculated when data is loaded, improving UI responsiveness.
+    * **Cleaner Data Display:** The "PackingList" and "ReqShip" columns will now automatically strip " - {Date}" suffixes from their display text for better readability. The original data is still used for generating links.
+    * **Search/Filter Interaction:** Applying a legend filter (e.g., "Critical," "Closed") will now automatically clear any active text in the search bar. Conversely, clearing the search bar will also deactivate any active legend filter.
+    * **Critical Status Fix:** Corrected an issue where jobs might not be highlighted as "Critical" (red row) if their packing list name included a date suffix.
+    * **Legend Count Accuracy:** Refined the logic for the legend counts to ensure categories like "No List" and "Set Date" only include jobs that are not already "Closed".
+	
+	-->
 </html>
